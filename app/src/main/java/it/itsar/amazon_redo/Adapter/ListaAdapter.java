@@ -70,7 +70,8 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ListaViewHol
         public void bindValue(Prodotto prodotto){
             nomeProdotto.setText(prodotto.getTitle());
             prezzo.setText(Integer.toString(prodotto.getPrice())+"€");
-            qta.setText("Qta disponibile: "+Integer.toString(prodotto.getStock()));
+            if(prodotto.getStock()==0) qta.setText("Prodotto disponibile prossimamente");
+            else qta.setText("Qta disponibile: "+Integer.toString(prodotto.getStock()));
             Picasso.get().load(prodotto.getThumbnail()).into(img);
         }
 

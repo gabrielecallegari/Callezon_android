@@ -17,6 +17,20 @@
         android:theme="@style/Theme.Amazon_redo"
         tools:targetApi="31">
         <activity
+            android:name=".http.model.Carrello_dettaglio"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".http.model.Profile"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".http.model.Prodotto_dettaglio"
             android:exported="false">
             <meta-data

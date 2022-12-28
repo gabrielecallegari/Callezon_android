@@ -7,7 +7,7 @@
     tools:context=".http.model.Prodotto_dettaglio">
 
     <ImageView
-        android:id="@+id/immagineDettaglio"
+        android:id="@+id/immagineDettaglioCart"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:maxWidth="180dp"
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/immagineDettaglio"
-        android:id="@+id/titoloDettaglio"
+        app:layout_constraintTop_toBottomOf="@+id/immagineDettaglioCart"
+        android:id="@+id/titoloDettaglioCart"
         tools:text="IPHONE 14"
         android:textColor="@color/black"
         android:textSize="26dp"
@@ -33,14 +33,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/titoloDettaglio"
+        app:layout_constraintTop_toBottomOf="@+id/titoloDettaglioCart"
         tools:text="rsfildvalifgmaoikdlsfngdiklsnraodklsfm
         vikdlgvmfkdmlsklf cflkvcmsdklvcdfkdscaiklsdfopcklrsskrlfnsdkflsadklfnaesdlkfsdnlkfcsadlfksdoflae
         ilsfdkcsdklfmcsdlkcmsaedlkòcmsakldcsdlmcmasdlkòvcmsdlocòmsadòl"
         android:textSize="18dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:id="@+id/descrizioneDettaglio"
+        android:id="@+id/descrizioneDettaglioCart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -50,8 +50,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/descrizioneDettaglio"
-        android:id="@+id/prezzoProdotto"
+        app:layout_constraintTop_toBottomOf="@id/descrizioneDettaglioCart"
+        android:id="@+id/prezzoProdottoCart"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:textColor="@color/black"
@@ -64,19 +64,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/prezzoProdotto"
+        app:layout_constraintTop_toBottomOf="@+id/prezzoProdottoCart"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:textSize="20dp"
         android:textColor="#0D5521"
         tools:text="Sconto applicato: 23,14%"
-        android:id="@+id/scontoProdotto"
+        android:id="@+id/scontoProdottoCart"
         >
 
     </TextView>
 
     <TextView
-        android:id="@+id/infoProdotto"
+        android:id="@+id/infoProdottoCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -86,31 +86,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.012"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scontoProdotto">
+        app:layout_constraintTop_toBottomOf="@+id/scontoProdottoCart">
 
     </TextView>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/scontoProdotto"
-        app:layout_constraintEnd_toStartOf="@id/quantitaProdotto"
+        app:layout_constraintTop_toBottomOf="@+id/scontoProdottoCart"
+        app:layout_constraintEnd_toStartOf="@id/quantitaProdottoCart"
         android:src="@drawable/ic_baseline_remove_24"
         android:background="@drawable/rounded_button"
         android:layout_marginRight="10dp"
         android:layout_marginTop="40dp"
-        android:id="@+id/removeQTA"
+        android:id="@+id/removeQTACart"
 
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/scontoProdotto"
+        app:layout_constraintTop_toBottomOf="@+id/scontoProdottoCart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="1"
-        android:id="@+id/quantitaProdotto"
+        android:id="@+id/quantitaProdottoCart"
         android:textSize="20dp"
         android:layout_marginTop="40dp"
         >
@@ -120,22 +120,22 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/scontoProdotto"
-        app:layout_constraintStart_toEndOf="@+id/quantitaProdotto"
+        app:layout_constraintTop_toBottomOf="@+id/scontoProdottoCart"
+        app:layout_constraintStart_toEndOf="@+id/quantitaProdottoCart"
         android:src="@drawable/ic_baseline_add_24"
         android:background="@drawable/rounded_button"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="40dp"
-        android:id="@+id/addQta"
+        android:id="@+id/addQtaCart"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Aggiungi al carrello"
+        android:text="aggiorna carrello"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/prodottoAdd"
+        android:id="@+id/carrelloUpdate"
         />
 
     <ImageButton
@@ -146,7 +146,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="4dp"
-        android:id="@+id/tornaIndietro"
+        android:id="@+id/backLista"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

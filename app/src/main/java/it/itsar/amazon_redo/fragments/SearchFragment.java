@@ -4,6 +4,7 @@ import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -11,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Looper;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.itsar.amazon_redo.Adapter.ListaAdapter;
+import it.itsar.amazon_redo.MainActivity;
 import it.itsar.amazon_redo.R;
 import it.itsar.amazon_redo.http.model.Prodotto;
 import it.itsar.amazon_redo.http.model.Prodotto_dettaglio;
@@ -30,9 +33,12 @@ import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 public class SearchFragment extends Fragment {
     private RecyclerView miaListView;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
@@ -56,11 +62,16 @@ public class SearchFragment extends Fragment {
                     }
                 })
         );
+
+
     }
 
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
-
+                ListaAdapter adapter = new ListaAdapter(prodotti);
+                miaListView.setAdapter(adapter);
             });
+
+
 }

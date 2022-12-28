@@ -1,13 +1,17 @@
 package it.itsar.amazon_redo;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,9 +23,15 @@ import it.itsar.amazon_redo.fragments.SearchFragment;
 import it.itsar.amazon_redo.http.data.JSONProducts;
 import it.itsar.amazon_redo.http.data.PostAsync;
 import it.itsar.amazon_redo.http.model.Prodotto;
+import it.itsar.amazon_redo.http.model.Profile;
 
 public class MainActivity extends AppCompatActivity {
     //link prodotti https://dummyjson.com/products
+
+    private ImageButton option;
+    private ImageButton profile;
+
+    public static boolean logged = false;
 
     private BottomNavigationView navbar;
     private boolean execute = false;
@@ -30,8 +40,15 @@ public class MainActivity extends AppCompatActivity {
         getJson();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        navbar = findViewById(R.id.bottomTabBar);
 
+        navbar = findViewById(R.id.bottomTabBar);
+        option = findViewById(R.id.options);
+        profile = findViewById(R.id.personal);
+
+        profile.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Profile.class);
+            launcher.launch(intent);
+        });
         navbar.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.cart:
@@ -84,4 +101,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+
+            });
 }

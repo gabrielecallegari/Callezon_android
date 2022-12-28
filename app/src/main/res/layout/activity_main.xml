@@ -23,6 +23,7 @@
             android:background="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
             >
 
         </ImageButton>
