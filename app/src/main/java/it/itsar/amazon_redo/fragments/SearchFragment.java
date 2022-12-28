@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 
 import it.itsar.amazon_redo.Adapter.ListaAdapter;
 import it.itsar.amazon_redo.R;
+import it.itsar.amazon_redo.http.model.Prodotto;
+import it.itsar.amazon_redo.http.model.Prodotto_dettaglio;
 import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 
 public class SearchFragment extends Fragment {
@@ -43,8 +45,10 @@ public class SearchFragment extends Fragment {
         miaListView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), miaListView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        
-
+                        Prodotto mioProdotto = prodotti.get(position);
+                        Intent intent = new Intent(getActivity(),Prodotto_dettaglio.class);
+                        intent.putExtra("Prodotto",mioProdotto);
+                        launcher.launch(intent);
                     }
 
                     @Override public void onLongItemClick(View view, int position) {

@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="4dp"
-        android:id="@+id/backButton"
+        android:id="@+id/tornaIndietro"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
