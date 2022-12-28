@@ -36,7 +36,6 @@
     tools:context=".fragments.HomeFragment"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     tools:listitem="@layout/carta_template"
-
     >
 
     </androidx.recyclerview.widget.RecyclerView>
