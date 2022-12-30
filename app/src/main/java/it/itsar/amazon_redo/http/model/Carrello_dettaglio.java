@@ -1,8 +1,8 @@
 package it.itsar.amazon_redo.http.model;
 
 import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
+import static it.itsar.amazon_redo.http.model.Prodotto_dettaglio.carrello;
 
-import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 
 import it.itsar.amazon_redo.R;
 
@@ -27,7 +26,6 @@ public class Carrello_dettaglio extends AppCompatActivity {
     private TextView scontoProdotto;
     private TextView prezzoProdotto;
 
-    public static ArrayList<Prodotto> carrello = new ArrayList<>();
     private ImageButton tastoBack;
     private ImageButton add;
     private ImageButton delete;
@@ -91,20 +89,18 @@ public class Carrello_dettaglio extends AppCompatActivity {
             qta.setText(Integer.toString(quantita));
         });
 
-        //problema con carrello
+
         updateCart.setOnClickListener(v->{
-            Log.d("QUANTITA", "onCreate: "+quantita);
             for (int i = 0; i<carrello.size(); i++){
                 if (carrello.get(i).getId()==mioProdotto.getId()){
-                    Log.d("QUI", "onCreate: ");
                     if(quantita>=1){
                         carrello.get(i).setStock(quantita);
                     }else{
                         carrello.remove(i);
-                        Log.d("SIZE CARRELLO", ""+carrello.size());
                     }
                 }
             }
+            prodotti.get(mioProdotto.getId()-1).setStock(prodotti.get(mioProdotto.getId()-1).getStock()+(mioProdotto.getStock()-quantita));
             finish();
         });
         tastoBack.setOnClickListener(v -> {

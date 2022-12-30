@@ -62,17 +62,9 @@ public class CartFragment extends Fragment {
         CarrelloAdapter mioAdapter = new CarrelloAdapter(carrello);
         carrelloView.setAdapter(mioAdapter);
 
-        carrelloView.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
-        acquista.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
-        svuotaCarrello.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
-        prezzoTotale.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
-        carrelloVuoto.setVisibility(carrello.size()==0 ? View.VISIBLE : View.GONE);
+        setVisibility();
+        setPrice();
 
-        for (int i = 0; i < carrello.size(); i++) {
-            prezzo = prezzo + (carrello.get(i).getPrice() * carrello.get(i).getStock());
-        }
-
-        prezzoTotale.setText("Prezzo totale: "+prezzo+"€");
 
 
         carrelloView.addOnItemTouchListener(
@@ -118,11 +110,30 @@ public class CartFragment extends Fragment {
 
     }
 
+
+
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                Log.d("RITORNO", ": ");
                 ListaAdapter adapter = new ListaAdapter(carrello);
                 carrelloView.setAdapter(adapter);
+                setVisibility();
+                setPrice();
             });
 
+    private void setVisibility(){
+        carrelloView.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
+        acquista.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
+        svuotaCarrello.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
+        prezzoTotale.setVisibility(carrello.size()==0 ? View.GONE : View.VISIBLE);
+        carrelloVuoto.setVisibility(carrello.size()==0 ? View.VISIBLE : View.GONE);
+    }
+
+    private void setPrice(){
+        prezzo=0;
+        for (int i = 0; i < carrello.size(); i++) {
+            prezzo = prezzo + (carrello.get(i).getPrice() * carrello.get(i).getStock());
+        }
+
+        prezzoTotale.setText("Prezzo totale: "+prezzo+"€");
+    }
 }

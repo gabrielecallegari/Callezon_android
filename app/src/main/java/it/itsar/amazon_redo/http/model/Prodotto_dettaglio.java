@@ -78,7 +78,6 @@ public class Prodotto_dettaglio extends AppCompatActivity {
             int stock = prodotti.get(mioProdotto.getId()-1).getStock();
             prodotti.get(mioProdotto.getId()-1).setStock(stock-quantita);
             mioProdotto.setStock(quantita);
-
             for(int i=0; i<carrello.size(); i++){
                 if (carrello.get(i).getId() == mioProdotto.getId()){
                     carrello.get(i).setStock(carrello.get(i).getStock()+mioProdotto.getStock());
