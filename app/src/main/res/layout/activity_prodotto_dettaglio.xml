@@ -129,6 +129,23 @@
         android:layout_marginTop="40dp"
         android:id="@+id/addQta"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/infoProdotto"
+        android:layout_marginLeft="20dp"
+        tools:text="Quantita disponibili"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.012"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:id="@+id/quantitaDisponibili"
+        >
+
+    </TextView>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

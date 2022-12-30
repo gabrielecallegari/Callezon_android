@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import it.itsar.amazon_redo.Adapter.ListaAdapter;
 import it.itsar.amazon_redo.MainActivity;
@@ -32,6 +35,7 @@ import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 
 public class SearchFragment extends Fragment {
     private RecyclerView miaListView;
+    private EditText search;
 
 
 
@@ -46,8 +50,32 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         miaListView = view.findViewById(R.id.recycleview);
-        ListaAdapter adapter = new ListaAdapter(prodotti);
-        miaListView.setAdapter(adapter);
+        search = view.findViewById(R.id.search);
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().equals("/all")){
+                    ListaAdapter adapter = new ListaAdapter(prodotti);
+                    miaListView.setAdapter(adapter);
+                    miaListView.setVisibility(View.VISIBLE);
+                }else{
+                    miaListView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         miaListView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), miaListView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {

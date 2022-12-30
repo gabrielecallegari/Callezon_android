@@ -1,6 +1,7 @@
 package it.itsar.amazon_redo.fragments;
 
 import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
+import static it.itsar.amazon_redo.http.model.Prodotto_dettaglio.carrello;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,8 +34,10 @@ import it.itsar.amazon_redo.Adapter.ScontiAdapter;
 import it.itsar.amazon_redo.R;
 import it.itsar.amazon_redo.http.data.JSONProducts;
 import it.itsar.amazon_redo.http.data.PostAsync;
+import it.itsar.amazon_redo.http.model.Carrello_dettaglio;
 import it.itsar.amazon_redo.http.model.Prodotto;
 import it.itsar.amazon_redo.http.model.Prodotto_dettaglio;
+import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 
 public class HomeFragment extends Fragment {
     private CardView cartaConsigliato;
@@ -69,6 +72,21 @@ public class HomeFragment extends Fragment {
         descrizioneConsigliato.setText(mioProdotto.getDescription());
         Picasso.get().load(mioProdotto.getThumbnail()).into(immagineConsigliato);
 
+        listaSconti.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), listaSconti ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Prodotto mioProdotto = sconti.get(sconti.size()-1-position);
+                        Intent intent = new Intent(getActivity(), Prodotto_dettaglio.class);
+                        intent.putExtra("Prodotto",mioProdotto);
+                        launcher.launch(intent);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+
         cartaConsigliato.setOnClickListener(v -> {
             Log.d("PREMUTO", "onViewCreated: ");
             Intent intent = new Intent(getContext(), Prodotto_dettaglio.class);
@@ -80,7 +98,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void findDiscount(){
-        sconti = prodotti;
+        sconti = (ArrayList)prodotti.clone();
         for(int i=0; i<sconti.size(); i++){
             for (int j = 0; j < sconti.size(); j++) {
                 if(sconti.get(i).getDiscount()<sconti.get(j).getDiscount()){

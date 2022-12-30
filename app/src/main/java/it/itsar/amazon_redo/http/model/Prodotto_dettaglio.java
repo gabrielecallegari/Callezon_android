@@ -33,6 +33,7 @@ public class Prodotto_dettaglio extends AppCompatActivity {
     private TextView qta;
     private Button addCart;
     private TextView info;
+    private TextView qtaDispo;
     private int quantita = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class Prodotto_dettaglio extends AppCompatActivity {
         qta = findViewById(R.id.quantitaProdotto);
         delete.setClickable(false);
         info = findViewById(R.id.infoProdotto);
+        qtaDispo = findViewById(R.id.quantitaDisponibili);
 
 
         Prodotto mioProdotto = (Prodotto) getIntent().getSerializableExtra("Prodotto");
@@ -59,6 +61,7 @@ public class Prodotto_dettaglio extends AppCompatActivity {
         descrizioneProdotto.setText(mioProdotto.getDescription());
         scontoProdotto.setText("Sconto applicato: "+mioProdotto.getDiscount()+"%");
         prezzoProdotto.setText("Prezzo: "+mioProdotto.getPrice()+"€");
+        qtaDispo.setText("Quantità disponibili: "+mioProdotto.getStock());
 
         if (mioProdotto.getStock()<=0){
             add.setVisibility(View.GONE);
