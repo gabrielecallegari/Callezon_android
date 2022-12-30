@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import it.itsar.amazon_redo.Adapter.ListaAdapter;
+import it.itsar.amazon_redo.Adapter.ScontiAdapter;
 import it.itsar.amazon_redo.R;
 import it.itsar.amazon_redo.http.data.JSONProducts;
 import it.itsar.amazon_redo.http.data.PostAsync;
@@ -41,6 +42,8 @@ public class HomeFragment extends Fragment {
     private TextView descrizioneConsigliato;
     private ImageView immagineConsigliato;
     private Prodotto mioProdotto = new Prodotto();
+    private RecyclerView listaSconti;
+    private ArrayList<Prodotto> sconti = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,8 +60,10 @@ public class HomeFragment extends Fragment {
         titoloConsigliato = view.findViewById(R.id.titoloConsigliata);
         descrizioneConsigliato = view.findViewById(R.id.descrizioneConsigliata);
         immagineConsigliato = view.findViewById(R.id.immagineConsigliata);
+        listaSconti = view.findViewById(R.id.scontiRecycle);
 
         mioProdotto = prodotti.get(0);
+        findDiscount();
 
         titoloConsigliato.setText(mioProdotto.getTitle());
         descrizioneConsigliato.setText(mioProdotto.getDescription());
@@ -72,6 +77,29 @@ public class HomeFragment extends Fragment {
         });
 
 
+    }
+
+    private void findDiscount(){
+        sconti = prodotti;
+        for(int i=0; i<sconti.size(); i++){
+            for (int j = 0; j < sconti.size(); j++) {
+                if(sconti.get(i).getDiscount()<sconti.get(j).getDiscount()){
+                    Prodotto p = new Prodotto();
+                    p= sconti.get(i);
+                    sconti.set(i,sconti.get(j));
+                    sconti.set(j,p);
+                }
+            }
+        }
+        for (int i = 0; i < sconti.size(); i++) {
+            Log.d("SCONTI", " "+sconti.get(i).getDiscount());
+        }
+        ArrayList<Prodotto> dieciSconti = new ArrayList<>();
+        for(int i=sconti.size()-1; i>sconti.size()-11; i--) dieciSconti.add(sconti.get(i));
+
+        ScontiAdapter adapter = new ScontiAdapter(dieciSconti);
+        listaSconti.setAdapter(adapter);
+        listaSconti.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
