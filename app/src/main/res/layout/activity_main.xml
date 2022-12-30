@@ -37,6 +37,7 @@
             android:text="Callezon"
             android:textColor="@color/black"
             android:textSize="20dp"
+            android:textStyle="bold"
             >
 
         </TextView>

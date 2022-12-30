@@ -17,6 +17,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         >
 
     </TextView>
@@ -48,11 +50,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxWidth="20px"
             tools:text="iPhone 14"
             android:textColor="@color/black"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textAlignment="center"
             android:id="@+id/titoloConsigliata"
+            android:textStyle="bold"
             >
         </TextView>
 
@@ -60,20 +64,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/descrizioneConsigliata"
-            tools:text="rsjifojksapeofkawepsèforpsefkas,opefksdopfasdkooepdfjfoiczidcskdoic<sodpcs<opdlospdlc<odlcposdlòsd"
+            tools:text="dslijfdcskl"
+
             android:layout_marginHorizontal="10dp"
             android:textSize="18dp"
+            android:layout_marginBottom="20dp"
+            android:maxLines="3"
             >
         </TextView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/cartaConsigliata"
-        android:text="Blablabal"
-        >
-
-    </TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>

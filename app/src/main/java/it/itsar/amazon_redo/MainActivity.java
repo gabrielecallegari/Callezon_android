@@ -1,5 +1,7 @@
 package it.itsar.amazon_redo;
 
+import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.widget.ImageButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import it.itsar.amazon_redo.fragments.CartFragment;
 import it.itsar.amazon_redo.fragments.HomeFragment;
@@ -35,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView navbar;
     private boolean execute = false;
+
+    public static Random random = new Random();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getJson();

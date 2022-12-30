@@ -4,8 +4,11 @@ import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -30,6 +33,7 @@ import it.itsar.amazon_redo.R;
 import it.itsar.amazon_redo.http.data.JSONProducts;
 import it.itsar.amazon_redo.http.data.PostAsync;
 import it.itsar.amazon_redo.http.model.Prodotto;
+import it.itsar.amazon_redo.http.model.Prodotto_dettaglio;
 
 public class HomeFragment extends Fragment {
     private CardView cartaConsigliato;
@@ -38,8 +42,6 @@ public class HomeFragment extends Fragment {
     private ImageView immagineConsigliato;
     private Prodotto mioProdotto = new Prodotto();
 
-    private Random random = new Random();
-    private final int index = random.nextInt(prodotti.size());
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,15 +58,25 @@ public class HomeFragment extends Fragment {
         descrizioneConsigliato = view.findViewById(R.id.descrizioneConsigliata);
         immagineConsigliato = view.findViewById(R.id.immagineConsigliata);
 
-        mioProdotto = prodotti.get(index);
+        mioProdotto = prodotti.get(0);
 
         titoloConsigliato.setText(mioProdotto.getTitle());
         descrizioneConsigliato.setText(mioProdotto.getDescription());
         Picasso.get().load(mioProdotto.getThumbnail()).into(immagineConsigliato);
 
+        cartaConsigliato.setOnClickListener(v -> {
+            Log.d("PREMUTO", "onViewCreated: ");
+            Intent intent = new Intent(getContext(), Prodotto_dettaglio.class);
+            intent.putExtra("Prodotto",mioProdotto);
+            launcher.launch(intent);
+        });
+
 
     }
 
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            result -> {
 
+            });
 
 }
