@@ -15,31 +15,19 @@
         android:padding="10dp"
         >
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/options"
-            android:src="@drawable/settings"
-            android:background="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
-            >
 
-        </ImageButton>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@+id/options"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/personal"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="Callezon"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"
             >
-
         </TextView>
 
         <ImageButton
@@ -50,6 +38,7 @@
             android:background="@color/white"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="user"
             >
 
         </ImageButton>

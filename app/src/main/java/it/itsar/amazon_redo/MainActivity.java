@@ -1,12 +1,10 @@
 package it.itsar.amazon_redo;
 
-import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,7 +16,6 @@ import android.widget.ImageButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import it.itsar.amazon_redo.fragments.CartFragment;
 import it.itsar.amazon_redo.fragments.HomeFragment;
@@ -31,15 +28,12 @@ import it.itsar.amazon_redo.http.model.Profile;
 public class MainActivity extends AppCompatActivity {
     //link prodotti https://dummyjson.com/products
 
-    private ImageButton option;
     private ImageButton profile;
 
-    public static boolean logged = false;
+    public static boolean isLogged = false;
 
     private BottomNavigationView navbar;
-    private boolean execute = false;
 
-    public static Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         navbar = findViewById(R.id.bottomTabBar);
-        option = findViewById(R.id.options);
         profile = findViewById(R.id.personal);
 
         profile.setOnClickListener(v -> {

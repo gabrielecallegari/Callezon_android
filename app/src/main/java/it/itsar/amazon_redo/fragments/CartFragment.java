@@ -1,5 +1,6 @@
 package it.itsar.amazon_redo.fragments;
 
+import static it.itsar.amazon_redo.MainActivity.isLogged;
 import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
 import static it.itsar.amazon_redo.http.model.Prodotto_dettaglio.carrello;
 
@@ -30,6 +31,7 @@ import it.itsar.amazon_redo.R;
 import it.itsar.amazon_redo.http.model.Carrello_dettaglio;
 import it.itsar.amazon_redo.http.model.Prodotto;
 import it.itsar.amazon_redo.http.model.Prodotto_dettaglio;
+import it.itsar.amazon_redo.http.model.Profile;
 import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 
 
@@ -65,8 +67,6 @@ public class CartFragment extends Fragment {
         setVisibility();
         setPrice();
 
-
-
         carrelloView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), carrelloView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
@@ -82,6 +82,23 @@ public class CartFragment extends Fragment {
                 })
         );
 
+        acquista.setOnClickListener(v -> {
+            if(isLogged == false){
+                DialogInterface.OnClickListener listener = (dialog, which) -> {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Intent intent = new Intent(getContext(), Profile.class);
+                            launcher.launch(intent);
+                            break;
+                    }
+                };
+                new AlertDialog.Builder(getContext()).setTitle("Per procedere è necessario prima effettuare il Log In")
+                        .setPositiveButton("LOG IN",listener)
+                        .setNegativeButton("ANNULLA",listener)
+                        .show();
+            }
+        });
+
         svuotaCarrello.setOnClickListener(v -> {
             Log.d("CARRELLO SIZE", "onViewCreated: "+carrello.size());
 
@@ -90,15 +107,11 @@ public class CartFragment extends Fragment {
                     case DialogInterface.BUTTON_POSITIVE:
                         prezzo = 0;
                         prezzoTotale.setText("Prezzo totale: 0€");
-                        prezzoTotale.setVisibility(View.GONE);
-                        carrelloView.setVisibility(View.GONE);
-                        acquista.setVisibility(View.GONE);
-                        svuotaCarrello.setVisibility(View.GONE);
-                        carrelloVuoto.setVisibility(View.VISIBLE);
                         for(Prodotto i : carrello){
                             prodotti.get(i.getId()-1).setStock(prodotti.get(i.getId()-1).getStock()+i.getStock());
                         }
                         carrello.clear();
+                        setVisibility();
                         break;
                 }
             };

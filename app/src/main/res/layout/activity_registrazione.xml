@@ -4,63 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".http.model.Profile">
-
+    tools:context=".http.model.Registrazione">
 
     <EditText
-        android:id="@+id/usernameAccedi"
+        android:id="@+id/usernameRegistrazione"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="90dp"
-        android:hint="Username"
+        android:hint="Inserisci Username"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="-200dp"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintVertical_bias="0.301" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        android:hint="Inserisci Password"
+        android:id="@+id/passwordRegistrazione"
+        app:layout_constraintTop_toBottomOf="@id/usernameRegistrazione"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="40dp"
         />
 
     <EditText
-        android:id="@+id/passwordAccedi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="90dp"
-        android:layout_marginTop="40dp"
-        android:hint="Password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameAccedi"
-        android:inputType="textPassword"
+        android:hint="Conferma Password"
+        android:layout_marginTop="20dp"
+        android:id="@+id/confermaPasswordRegistrazione"
+        app:layout_constraintTop_toBottomOf="@id/passwordRegistrazione"
+        android:layout_marginHorizontal="40dp"
         />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/passwordAccedi"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="Non hai un account? Clicca per registrarti"
-        android:layout_marginTop="30dp"
-        android:textColor="#2662F3"
-        android:id="@+id/senzaAccount"
-        />
-
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log in"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/buttonLogin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Registrati"
+        android:id="@+id/registrati"
         />
-
-
-
-
 
 
     <ImageButton
@@ -71,7 +65,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="4dp"
-        android:id="@+id/tornaHome"
+        android:id="@+id/tornaRegistrazione"
         />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,7 +42,7 @@ public class SearchFragment extends Fragment {
     private EditText search;
     private TextView errore;
 
-
+    private ArrayList<Prodotto> filtered = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment {
                         errore.setVisibility(View.GONE);
                         miaListView.setVisibility(View.VISIBLE);
                     } else {
-                        ArrayList<Prodotto> p = new ArrayList<>();
+                        filtered.clear();
                         String splitted[] = s.toString().split("");
 
                         for (int i = 0; i < prodotti.size(); i++) {
@@ -87,15 +87,15 @@ public class SearchFragment extends Fragment {
                                 }
                             }
                             if (check.size()  == splitted.length) {
-                                p.add(prodotti.get(i));
+                                filtered.add(prodotti.get(i));
                             }
                         }
 
-                        if (p.size() == 0) {
+                        if (filtered.size() == 0) {
                             errore.setVisibility(View.VISIBLE);
                             miaListView.setVisibility(View.GONE);
                         } else {
-                            ListaAdapter adapter = new ListaAdapter(p);
+                            ListaAdapter adapter = new ListaAdapter(filtered);
                             miaListView.setAdapter(adapter);
                             errore.setVisibility(View.GONE);
                             miaListView.setVisibility(View.VISIBLE);
@@ -110,16 +110,16 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
         miaListView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), miaListView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Prodotto mioProdotto = prodotti.get(position);
+                        Prodotto mioProdotto;
+                        if(search.getText().toString().equals("/all")) mioProdotto= prodotti.get(position);
+                        else mioProdotto = filtered.get(position);
                         Intent intent = new Intent(getActivity(),Prodotto_dettaglio.class);
                         intent.putExtra("Prodotto",mioProdotto);
                         launcher.launch(intent);
                     }
-
                     @Override public void onLongItemClick(View view, int position) {
 
                     }
