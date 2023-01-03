@@ -25,6 +25,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 import it.itsar.amazon_redo.Adapter.ListaAdapter;
 import it.itsar.amazon_redo.MainActivity;
@@ -36,6 +40,7 @@ import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 public class SearchFragment extends Fragment {
     private RecyclerView miaListView;
     private EditText search;
+    private TextView errore;
 
 
 
@@ -51,6 +56,7 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         miaListView = view.findViewById(R.id.recycleview);
         search = view.findViewById(R.id.search);
+        errore = view.findViewById(R.id.notFound);
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -60,12 +66,41 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().equals("/all")){
-                    ListaAdapter adapter = new ListaAdapter(prodotti);
-                    miaListView.setAdapter(adapter);
-                    miaListView.setVisibility(View.VISIBLE);
-                }else{
+                if (s.toString().length() == 0) {
                     miaListView.setVisibility(View.GONE);
+                    errore.setVisibility(View.GONE);
+                } else {
+                    if (s.toString().equals("/all")) {
+                        ListaAdapter adapter = new ListaAdapter(prodotti);
+                        miaListView.setAdapter(adapter);
+                        errore.setVisibility(View.GONE);
+                        miaListView.setVisibility(View.VISIBLE);
+                    } else {
+                        ArrayList<Prodotto> p = new ArrayList<>();
+                        String splitted[] = s.toString().split("");
+
+                        for (int i = 0; i < prodotti.size(); i++) {
+                            ArrayList<Boolean> check = new ArrayList<>();
+                            for (int j = 0; j < splitted.length; j++) {
+                                if (prodotti.get(i).getTitle().toLowerCase(Locale.ROOT).contains(splitted[j].toLowerCase(Locale.ROOT)) ) {
+                                    check.add(true);
+                                }
+                            }
+                            if (check.size()  == splitted.length) {
+                                p.add(prodotti.get(i));
+                            }
+                        }
+
+                        if (p.size() == 0) {
+                            errore.setVisibility(View.VISIBLE);
+                            miaListView.setVisibility(View.GONE);
+                        } else {
+                            ListaAdapter adapter = new ListaAdapter(p);
+                            miaListView.setAdapter(adapter);
+                            errore.setVisibility(View.GONE);
+                            miaListView.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
             }
 

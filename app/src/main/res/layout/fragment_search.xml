@@ -40,4 +40,21 @@
     >
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Non è stato trovato alcun risultato, prova a modificare i campi di ricerca"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="28dp"
+        android:textAlignment="center"
+        android:id="@+id/notFound"
+        android:visibility="invisible"
+        >
+
+    </TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>
