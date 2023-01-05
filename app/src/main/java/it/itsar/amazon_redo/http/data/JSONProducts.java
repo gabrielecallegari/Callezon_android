@@ -35,7 +35,6 @@ public class JSONProducts {
 
         JsonObjectRequest richiesta = new JsonObjectRequest(Request.Method.GET, url_products, null, response -> {
            try {
-
                JSONArray array = response.getJSONArray("products");
                for (int i = 0; i < array.length(); i++) {
                     Prodotto p = new Prodotto();

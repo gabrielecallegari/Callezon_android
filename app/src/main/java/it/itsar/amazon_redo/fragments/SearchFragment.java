@@ -63,7 +63,7 @@ public class SearchFragment extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
+            //Splittare il prodotto in caratteri e rimuoverli una volta trovati
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().length() == 0) {

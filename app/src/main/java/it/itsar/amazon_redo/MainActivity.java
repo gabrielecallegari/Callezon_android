@@ -15,6 +15,10 @@ import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import it.itsar.amazon_redo.fragments.CartFragment;
@@ -28,7 +32,11 @@ import it.itsar.amazon_redo.http.model.Profile;
 public class MainActivity extends AppCompatActivity {
     //link prodotti https://dummyjson.com/products
 
+    //struttura file: ACCOUNT ACQUISTI
+
     private ImageButton profile;
+
+    public final static String nomeFile = "database.txt";
 
     public static boolean isLogged = false;
 
@@ -38,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getJson();
+        /*
+        try {
+            scritturaFile("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+        String letto = letturaFile();
+        Log.d("FILE", letto);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -68,7 +86,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public Boolean scritturaFile(String testo) throws IOException {
+        File file = new File(getFilesDir(),nomeFile);
+        FileOutputStream stream = null;
+        try{
+            stream = new FileOutputStream(file);
+            stream.write(testo.getBytes());
+            stream.close();
+            return true;
+        }catch (Exception e){
+            Log.d("FILE", "scriviFile: Scrittura fallita");
+        }
+        return false;
+    }
 
+    public String letturaFile(){
+        File file = new File(getFilesDir(),nomeFile);
+        int length = (int) file.length();
+        byte[] bytes = new byte[length];
+
+        try(FileInputStream in = new FileInputStream(file)) {
+            int l = in.read(bytes);
+        }catch (Exception e){
+            Log.d("FILE", "letturaFile: Lettura Fallita");
+        }
+
+        return new String(bytes);
+    }
 
     private void configFragment(Class fr){
         FragmentManager fragmentManager = getSupportFragmentManager();
