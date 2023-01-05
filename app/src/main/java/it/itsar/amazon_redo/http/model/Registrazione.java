@@ -1,5 +1,6 @@
 package it.itsar.amazon_redo.http.model;
 
+import static it.itsar.amazon_redo.MainActivity.isLogged;
 import static it.itsar.amazon_redo.MainActivity.nomeFile;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -11,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 import it.itsar.amazon_redo.MainActivity;
 import it.itsar.amazon_redo.R;
@@ -111,12 +115,25 @@ public class Registrazione extends AppCompatActivity {
                 return;
             }
 
+            if(numeroCarta.getText().toString().length()!=19){
+                alert("Lunghezza numero carta non corretta, prova ad aggiungere gli spazi dopo ogni 4 numeri ecceto l'ultimo quartetto");
+                return;
+            }
+
+            String controllo = "abcdefghijklmnopqrstuvwxyz.,-à°#ù§òç@èé[+*]^?=)(/&%$£!\"";
+            String splitted[] = controllo.split("");
+            for (int i = 0; i < splitted.length; i++) {
+                if(cvvCarta.getText().toString().toLowerCase().contains(splitted[i])){
+                    alert("Il numero della carta contiene il carattere "+splitted[i]);
+                    return;
+                }
+            }
+
             String letto = letturaFile();
             if(letto.contains(username.getText().toString())){
                 alert("USERNAME già esistente");
                 return;
             }
-
 
             DialogInterface.OnClickListener listener = (dialog, which) -> {
                 if(which == DialogInterface.BUTTON_POSITIVE){
@@ -139,6 +156,7 @@ public class Registrazione extends AppCompatActivity {
                     utente.put("scadenza",scadenzaCarta.getText().toString());
                     utente.put("cvv",cvvCarta.getText().toString());
                     utente.put("indirizzo",indirizzo.getText().toString());
+                    utente.put("islogged","true");
                     array.put(utente);
                     mioDatabase.put("ACCOUNT",array);
                     mioDatabase.put("ACQUISTI",acquisti);
@@ -165,6 +183,7 @@ public class Registrazione extends AppCompatActivity {
                     utente.put("scadenza",scadenzaCarta.getText().toString());
                     utente.put("cvv",cvvCarta.getText().toString());
                     utente.put("indirizzo",indirizzo.getText().toString());
+                    utente.put("islogged","true");
                     array.put(utente);
                     mioDatabase.put("ACCOUNT",array);
                     mioDatabase.put("ACQUISTI",acquisti);
@@ -174,6 +193,7 @@ public class Registrazione extends AppCompatActivity {
                 }
                 try {
                     scritturaFile(mioDatabase.toString());
+                    isLogged = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
