@@ -29,6 +29,7 @@ import it.itsar.amazon_redo.Adapter.ListaAdapter;
 import it.itsar.amazon_redo.MainActivity;
 import it.itsar.amazon_redo.R;
 import it.itsar.amazon_redo.http.model.Carrello_dettaglio;
+import it.itsar.amazon_redo.http.model.Pagamento;
 import it.itsar.amazon_redo.http.model.Prodotto;
 import it.itsar.amazon_redo.http.model.Prodotto_dettaglio;
 import it.itsar.amazon_redo.http.model.Profile;
@@ -96,6 +97,9 @@ public class CartFragment extends Fragment {
                         .setPositiveButton("LOG IN",listener)
                         .setNegativeButton("ANNULLA",listener)
                         .show();
+            }else{
+                Intent intent = new Intent(getContext(), Pagamento.class);
+                launcher.launch(intent);
             }
         });
 

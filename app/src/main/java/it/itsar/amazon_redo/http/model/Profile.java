@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,6 +34,8 @@ public class Profile extends AppCompatActivity {
     private EditText password;
     private Button accedi;
     private TextView senzaAccount;
+    private TextView labelLogin;
+    private TextView nomeUtente;
 
 
     @Override
@@ -40,11 +43,34 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
+        nomeUtente = findViewById(R.id.bentornato);
+        labelLogin = findViewById(R.id.labelLogin);
         username = findViewById(R.id.usernameAccedi);
         password = findViewById(R.id.passwordAccedi);
         back = findViewById(R.id.tornaHome);
         accedi = findViewById(R.id.buttonLogin);
         senzaAccount = findViewById(R.id.senzaAccount);
+
+        setVisibility();
+
+        if (isLogged==true){
+            String letto = letturaFile();
+            JSONObject mio = null;
+            try {
+                mio = new JSONObject(letto);
+                JSONArray arr = mio.getJSONArray("ACCOUNT");
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject utente = arr.getJSONObject(i);
+                    if(utente.get("islogged").toString().equals("true")){
+                        nomeUtente.setText("Bentornato "+utente.get("username").toString());
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         senzaAccount.setOnClickListener(v -> {
             Intent intent = new Intent(Profile.this, Registrazione.class);
@@ -131,6 +157,14 @@ public class Profile extends AppCompatActivity {
         }
 
         return new String(bytes);
+    }
+
+    void setVisibility(){
+        labelLogin.setVisibility(isLogged==true?View.GONE:View.VISIBLE);
+        username.setVisibility(isLogged==true?View.GONE:View.VISIBLE);
+        password.setVisibility(isLogged==true?View.GONE:View.VISIBLE);
+        senzaAccount.setVisibility(isLogged==true?View.GONE:View.VISIBLE);
+        accedi.setVisibility(isLogged==true?View.GONE:View.VISIBLE);
     }
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),

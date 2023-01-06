@@ -71,7 +71,19 @@
         android:id="@+id/buttonLogin"
         />
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp"
+        android:text="Bentornato"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:id="@+id/bentornato"
+        />
 
 
 

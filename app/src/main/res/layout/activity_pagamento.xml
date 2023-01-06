@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".http.model.Pagamento">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="PAGAMENTO"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/pag"
+        />
+
+    <TextView
+        android:id="@+id/carta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="92dp"
+        android:text="Carta"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pag" />
+
+
+    <TextView
+        android:id="@+id/infocarta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Inserisci il cvv della carta che termina per "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carta" />
+
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/infocarta"
+        android:hint="cvv"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/cvvPagamento"
+        />
+    <TextView
+        android:id="@+id/ind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:text="Indirizzo"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvvPagamento"
+        />
+
+
+    <TextView
+        android:id="@+id/indi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Indirizzo di spedizione:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ind" />
+
+    <TextView
+        android:id="@+id/indirizzoSpedizione"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/indi"
+        tools:text="Via franco armani 6 milano" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/indi"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Inserisci indirizzo"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="100dp"
+        android:visibility="gone"
+        android:id="@+id/nuovoIndirizzoSpedizione"
+        />
+
+    <TextView
+        android:id="@+id/cambiaIndirizzo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="340dp"
+        android:text="Clicca qui per cambiare l'indirizzo di spedizione"
+        android:textColor="#2662F3"
+        app:layout_constraintBottom_toTopOf="@+id/effettuaPagamento"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAGA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/effettuaPagamento"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        android:background="@drawable/rounded_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="4dp"
+        android:id="@+id/tornaCarrello"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

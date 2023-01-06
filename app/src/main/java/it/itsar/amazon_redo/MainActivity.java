@@ -9,11 +9,16 @@ import androidx.fragment.app.FragmentManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,6 +59,19 @@ public class MainActivity extends AppCompatActivity {
         }
         */
         String letto = letturaFile();
+        JSONObject mio = null;
+        try {
+            mio = new JSONObject(letto);
+            JSONArray arr = mio.getJSONArray("ACCOUNT");
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject utente = arr.getJSONObject(i);
+                if(utente.get("islogged").toString().equals("true")){
+                    isLogged=true;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Log.d("FILE", letto);
 
         super.onCreate(savedInstanceState);
