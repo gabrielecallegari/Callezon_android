@@ -123,9 +123,10 @@ public class Pagamento extends AppCompatActivity {
                     for (int i = 0; i < arr.length(); i++) {
                         JSONObject utente = arr.getJSONObject(i);
                         if(utente.get("islogged").toString().equals("true")){
-                            String ind = cambiaIndirizzo.getText().toString();
+                            String ind = nuovoIndirizzo.getText().toString();
+                            utente.remove("insirizzo");
                             utente.remove("indirizzo");
-                            utente.put("insirizzo",ind);
+                            utente.put("indirizzo",ind);
                             checked = true;
                         }
                         nuovo.put(utente);

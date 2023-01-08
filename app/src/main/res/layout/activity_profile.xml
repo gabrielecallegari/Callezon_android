@@ -18,6 +18,7 @@
         android:textSize="20dp"
         android:layout_marginTop="5dp"
         android:id="@+id/labelLogin"
+        android:visibility="gone"
         />
 
     <EditText
@@ -32,6 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="-200dp"
+        android:visibility="gone"
         />
 
     <EditText
@@ -46,6 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameAccedi"
         android:inputType="textPassword"
+        android:visibility="gone"
         />
 
     <TextView
@@ -58,6 +61,7 @@
         android:layout_marginTop="30dp"
         android:textColor="#2662F3"
         android:id="@+id/senzaAccount"
+        android:visibility="gone"
         />
 
 
@@ -69,6 +73,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/buttonLogin"
+        android:visibility="gone"
         />
 
     <TextView
@@ -79,14 +84,131 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="80dp"
         android:text="Bentornato"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:id="@+id/bentornato"
         />
 
 
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:id="@+id/datiLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="I tuoi dati:"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bentornato"/>
 
+    <TextView
+        android:textSize="18dp"
+        android:id="@+id/ccLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="4dp"
+        android:text="Carta di credito:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datiLabel" />
+
+    <TextView
+        android:textSize="15dp"
+        android:id="@+id/cartaCreditoPersonale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ccLabel"
+        tools:text="2222 2222 2222 2222" />
+
+    <TextView
+        android:textSize="15dp"
+        android:id="@+id/scadenzaPersonale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cartaCreditoPersonale"
+        tools:text="Scadenza: 22/22" />
+
+    <TextView
+        android:textSize="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cvvPersonale"
+        app:layout_constraintTop_toBottomOf="@id/cartaCreditoPersonale"
+        app:layout_constraintStart_toEndOf="@+id/scadenzaPersonale"
+        tools:text="cvv: 222"
+        android:layout_marginLeft="20dp"
+        />
+
+    <TextView
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/labelIndirizzo"
+        app:layout_constraintTop_toBottomOf="@id/scadenzaPersonale"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="Indirizzo:"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:textSize="15dp"
+        android:id="@+id/indirizzoPersonale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/labelIndirizzo"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Via giovanni mucacha 9 milano"
+        />
+
+    <TextView
+        android:textSize="18dp"
+        android:id="@+id/ituoiacquisti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/indirizzoPersonale"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:text="I tuoi acquisti:"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycleviewAcquisti"
+        app:layout_constraintTop_toBottomOf="@+id/ituoiacquisti"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logoutPersonale"
+        android:text="logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <ImageButton
         android:layout_width="wrap_content"

@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import it.itsar.amazon_redo.Adapter.ListaAdapter;
 import it.itsar.amazon_redo.Adapter.ScontiAdapter;
@@ -48,11 +49,11 @@ public class HomeFragment extends Fragment {
     private RecyclerView listaSconti;
     private ArrayList<Prodotto> sconti = new ArrayList<>();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -66,6 +67,7 @@ public class HomeFragment extends Fragment {
         listaSconti = view.findViewById(R.id.scontiRecycle);
 
         mioProdotto = prodotti.get(0);
+
         findDiscount();
 
         titoloConsigliato.setText(mioProdotto.getTitle());
@@ -98,6 +100,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void findDiscount(){
+        sconti.clear();
         sconti = (ArrayList)prodotti.clone();
         for(int i=0; i<sconti.size(); i++){
             for (int j = 0; j < sconti.size(); j++) {
@@ -109,9 +112,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
-        for (int i = 0; i < sconti.size(); i++) {
-            Log.d("SCONTI", " "+sconti.get(i).getDiscount());
-        }
         ArrayList<Prodotto> dieciSconti = new ArrayList<>();
         for(int i=sconti.size()-1; i>sconti.size()-11; i--) dieciSconti.add(sconti.get(i));
 
@@ -119,6 +119,8 @@ public class HomeFragment extends Fragment {
         listaSconti.setAdapter(adapter);
         listaSconti.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }
+
+
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {

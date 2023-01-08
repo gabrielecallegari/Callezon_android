@@ -31,7 +31,7 @@ public class JSONProducts {
     String url_products = "https://dummyjson.com/products";
     public static ArrayList<Prodotto> prodotti = new ArrayList<>();
     public void getProducts(final PostAsync callback){
-
+        prodotti.clear();
 
         JsonObjectRequest richiesta = new JsonObjectRequest(Request.Method.GET, url_products, null, response -> {
            try {
