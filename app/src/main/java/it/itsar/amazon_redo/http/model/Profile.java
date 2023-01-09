@@ -122,6 +122,16 @@ public class Profile extends AppCompatActivity {
                 username.setHintTextColor(Color.RED);
                 return;
             }
+            if(username.getText().equals("") || username.getText()==null){
+                username.setHint("Inserisci username");
+                username.setHintTextColor(Color.RED);
+                return;
+            }
+            if(password.getText().equals("") || password.getText()==null){
+                password.setHint("Inserisci password");
+                password.setHintTextColor(Color.RED);
+                return;
+            }
             String a = letturaFile();
             JSONObject mio = null;
             boolean trovato = false;

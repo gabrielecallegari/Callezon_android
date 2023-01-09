@@ -29,7 +29,7 @@ import it.itsar.amazon_redo.http.model.Prodotto;
 
 public class JSONProducts {
     String url_products = "https://dummyjson.com/products";
-    public static ArrayList<Prodotto> prodotti = new ArrayList<>();
+    public static final ArrayList<Prodotto> prodotti = new ArrayList<>();
     public void getProducts(final PostAsync callback){
         prodotti.clear();
 

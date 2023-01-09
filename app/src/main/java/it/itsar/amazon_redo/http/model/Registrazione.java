@@ -121,10 +121,15 @@ public class Registrazione extends AppCompatActivity {
             }
 
             String controllo = "abcdefghijklmnopqrstuvwxyz.,-à°#ù§òç@èé[+*]^?=)(/&%$£!\"";
+
             String splitted[] = controllo.split("");
             for (int i = 0; i < splitted.length; i++) {
                 if(cvvCarta.getText().toString().toLowerCase().contains(splitted[i])){
-                    alert("Il numero della carta contiene il carattere "+splitted[i]);
+                    alert("Il cvv della carta non può contenere il carattere "+splitted[i]);
+                    return;
+                }
+                if(scadenzaCarta.getText().toString().toLowerCase().contains(splitted[i])){
+                    alert("La scadenza della carta non può contenere il carattere "+splitted[i]);
                     return;
                 }
             }
