@@ -131,8 +131,13 @@ public class SearchFragment extends Fragment {
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                ListaAdapter adapter = new ListaAdapter(prodotti);
-                miaListView.setAdapter(adapter);
+                if(search.getText().toString().equals("/all")) {
+                    ListaAdapter adapter = new ListaAdapter(prodotti);
+                    miaListView.setAdapter(adapter);
+                }else{
+                    ListaAdapter adapter = new ListaAdapter(filtered);
+                    miaListView.setAdapter(adapter);
+                }
             });
 
 

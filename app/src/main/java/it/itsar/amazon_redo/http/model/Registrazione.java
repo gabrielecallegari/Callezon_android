@@ -5,6 +5,7 @@ import static it.itsar.amazon_redo.MainActivity.nomeFile;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -20,6 +21,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
 
 import it.itsar.amazon_redo.MainActivity;
@@ -148,6 +155,7 @@ public class Registrazione extends AppCompatActivity {
             };
             new AlertDialog.Builder(Registrazione.this).setTitle("COMPLETATA")
                     .setMessage("Registrazione avvenuta con successo").setPositiveButton("OK",listener).show();
+
 
             if(letto.length()==0){
                 JSONObject mioDatabase = new JSONObject();
