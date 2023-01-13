@@ -2,6 +2,7 @@ package it.itsar.amazon_redo.http.model;
 
 import static it.itsar.amazon_redo.MainActivity.isLogged;
 import static it.itsar.amazon_redo.MainActivity.nomeFile;
+import static it.itsar.amazon_redo.MainActivity.utenteLoggato;
 import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -116,12 +117,15 @@ public class Profile extends AppCompatActivity {
         );
 
         accedi.setOnClickListener(v->{
+            /*
             if(!letturaFile().contains(username.getText().toString())){
                 username.setText("");
                 username.setHint("Username non valido");
                 username.setHintTextColor(Color.RED);
                 return;
             }
+
+             */
             if(username.getText().equals("") || username.getText()==null){
                 username.setHint("Inserisci username");
                 username.setHintTextColor(Color.RED);
@@ -132,83 +136,13 @@ public class Profile extends AppCompatActivity {
                 password.setHintTextColor(Color.RED);
                 return;
             }
-            String a = letturaFile();
-            JSONObject mio = null;
-            boolean trovato = false;
-            try {
-                mio = new JSONObject(a);
-                JSONArray arr = mio.getJSONArray("ACCOUNT");
-                JSONArray nuovo = new JSONArray();
-                JSONArray acquisti = mio.getJSONArray("ACQUISTI");
-
-                for (int i = 0; i < arr.length(); i++) {
-                    JSONObject utente = arr.getJSONObject(i);
-                    if(utente.get("username").toString().equals(username.getText().toString())){
-                        if(!utente.get("password").toString().equals(password.getText().toString())){
-                            password.setText("");
-                            password.setHint("Password non valida");
-                            password.setHintTextColor(Color.RED);
-                        }else{
-                            utente.remove("islogged");
-                            utente.put("islogged","true");
-                            isLogged = true;
-                            trovato = true;
-                        }
-                    }
-                    nuovo.put(utente);
-                }
-                mio.remove("ACCOUNT");
-                mio.remove("ACQUISTI");
-                mio.put("ACCOUNT",nuovo);
-                mio.put("ACQUISTI",acquisti);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            if(trovato == true) {
-                try {
-                    scritturaFile(mio.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                setVisibility();
-                setUser();
-            }
         });
 
         logout.setOnClickListener(v->{
             DialogInterface.OnClickListener listener = (dialog, which) -> {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        String a = letturaFile();
-                        JSONObject mio = null;
-                        try {
-                            mio = new JSONObject(a);
-                            JSONArray arr = mio.getJSONArray("ACCOUNT");
-                            JSONArray nuovo = new JSONArray();
-                            JSONArray acquisti = mio.getJSONArray("ACQUISTI");
 
-                            for (int i = 0; i < arr.length(); i++) {
-                                JSONObject utente = arr.getJSONObject(i);
-                                if(utente.get("username").toString().equals(usernameUtente)){
-                                    utente.remove("islogged");
-                                    utente.put("islogged","false");
-                                    isLogged=false;
-                                }
-                                nuovo.put(utente);
-                            }
-                            mio.remove("ACCOUNT");
-                            mio.remove("ACQUISTI");
-                            mio.put("ACCOUNT",nuovo);
-                            mio.put("ACQUISTI",acquisti);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            scritturaFile(mio.toString());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                         setVisibility();
                         break;
                 }
@@ -227,74 +161,26 @@ public class Profile extends AppCompatActivity {
     private void setUser(){
         acquistati.clear();
         if (isLogged==true){
-            String letto = letturaFile();
-            JSONObject mio = null;
-            try {
-                mio = new JSONObject(letto);
-                JSONArray arr = mio.getJSONArray("ACCOUNT");
-                JSONArray acquistiJSon = mio.getJSONArray("ACQUISTI");
-                for (int i = 0; i < arr.length(); i++) {
-                    JSONObject utente = arr.getJSONObject(i);
-                    if(utente.get("islogged").toString().equals("true")){
-                        usernameUtente = utente.get("username").toString();
-                        nomeUtente.setText("Bentornato "+usernameUtente);
-                        carta = utente.get("carta").toString();
-                        scadenza = utente.get("scadenza").toString();
-                        cvv = utente.get("cvv").toString();
-                        indirizzo = utente.get("indirizzo").toString();
-                    }
-                }
-
-                for (int i = 0; i < acquistiJSon.length(); i++) {
-                    JSONObject oggetto = acquistiJSon.getJSONObject(i);
-                    if (oggetto.get("utente").toString().equals(usernameUtente)){
-                        Prodotto p = new Prodotto();
-                        p = prodotti.get(Integer.parseInt(oggetto.get("id").toString())-1);
-                        acquistati.add(p);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            usernameUtente = utenteLoggato.getUsername();
+            nomeUtente.setText("Bentornato "+usernameUtente);
+            carta = utenteLoggato.getCarta();
+            scadenza = utenteLoggato.getScadenza();
+            cvv = utenteLoggato.getCvv();
+            indirizzo = utenteLoggato.getIndirizzo();
+            indirizzoUtente.setText(indirizzo);
+            numeroCarta.setText(carta);
+            scadenzaCarta.setText("Scadenza: "+scadenza);
+            cvvCarta.setText("Cvv: "+cvv);
         }
-        indirizzoUtente.setText(indirizzo);
-        numeroCarta.setText(carta);
-        scadenzaCarta.setText("Scadenza: "+scadenza);
-        cvvCarta.setText("Cvv: "+cvv);
-
+        /*
         ProfiloAdapter adapter = new ProfiloAdapter(acquistati);
         acquistiLista.setAdapter(adapter);
         acquistiLista.setLayoutManager(new LinearLayoutManager(Profile.this, RecyclerView.HORIZONTAL, false));
+         */
 
     }
 
-    public Boolean scritturaFile(String testo) throws IOException {
-        File file = new File(getFilesDir(),nomeFile);
-        FileOutputStream stream = null;
-        try{
-            stream = new FileOutputStream(file);
-            stream.write(testo.getBytes());
-            stream.close();
-            return true;
-        }catch (Exception e){
-            Log.d("FILE", "scriviFile: Scrittura fallita");
-        }
-        return false;
-    }
 
-    public String letturaFile(){
-        File file = new File(getFilesDir(),nomeFile);
-        int length = (int) file.length();
-        byte[] bytes = new byte[length];
-
-        try(FileInputStream in = new FileInputStream(file)) {
-            int l = in.read(bytes);
-        }catch (Exception e){
-            Log.d("FILE", "letturaFile: Lettura Fallita");
-        }
-
-        return new String(bytes);
-    }
 
     void setVisibility(){
         labelLogin.setVisibility(isLogged==true?View.GONE:View.VISIBLE);

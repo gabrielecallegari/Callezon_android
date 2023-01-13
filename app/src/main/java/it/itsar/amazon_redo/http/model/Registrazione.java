@@ -2,6 +2,7 @@ package it.itsar.amazon_redo.http.model;
 
 import static it.itsar.amazon_redo.MainActivity.isLogged;
 import static it.itsar.amazon_redo.MainActivity.nomeFile;
+import static it.itsar.amazon_redo.http.model.MioDatabase.salvaSuDatabase;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -141,12 +142,6 @@ public class Registrazione extends AppCompatActivity {
                 }
             }
 
-            String letto = letturaFile();
-            if(letto.contains(username.getText().toString())){
-                alert("USERNAME già esistente");
-                return;
-            }
-
             DialogInterface.OnClickListener listener = (dialog, which) -> {
                 if(which == DialogInterface.BUTTON_POSITIVE){
                     Intent intent = new Intent(Registrazione.this, MainActivity.class);
@@ -156,66 +151,15 @@ public class Registrazione extends AppCompatActivity {
             new AlertDialog.Builder(Registrazione.this).setTitle("COMPLETATA")
                     .setMessage("Registrazione avvenuta con successo").setPositiveButton("OK",listener).show();
 
-
-            if(letto.length()==0){
-                JSONObject mioDatabase = new JSONObject();
-                try {
-                    JSONArray array = new JSONArray();
-                    JSONArray acquisti = new JSONArray();
-                    JSONObject utente = new JSONObject();
-                    utente.put("username",username.getText().toString());
-                    utente.put("password",password.getText().toString());
-                    utente.put("carta",numeroCarta.getText().toString());
-                    utente.put("scadenza",scadenzaCarta.getText().toString());
-                    utente.put("cvv",cvvCarta.getText().toString());
-                    utente.put("indirizzo",indirizzo.getText().toString());
-                    utente.put("islogged","true");
-                    array.put(utente);
-                    mioDatabase.put("ACCOUNT",array);
-                    mioDatabase.put("ACQUISTI",acquisti);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    scritturaFile(mioDatabase.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }else{
-                JSONObject mioDatabase = new JSONObject();
-                try {
-                    String a = letturaFile();
-                    JSONObject mio = new JSONObject(a);
-                    JSONArray array = mio.getJSONArray("ACCOUNT");
-                    JSONArray acquisti = mio.getJSONArray("ACQUISTI");
-                    JSONObject utente = new JSONObject();
-                    utente.put("username",username.getText().toString());
-                    utente.put("password",password.getText().toString());
-                    utente.put("carta",numeroCarta.getText().toString());
-                    utente.put("scadenza",scadenzaCarta.getText().toString());
-                    utente.put("cvv",cvvCarta.getText().toString());
-                    utente.put("indirizzo",indirizzo.getText().toString());
-                    utente.put("islogged","true");
-                    array.put(utente);
-                    mioDatabase.put("ACCOUNT",array);
-                    mioDatabase.put("ACQUISTI",acquisti);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    scritturaFile(mioDatabase.toString());
-                    isLogged = true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Log.d("FILE", letturaFile());
-            }
-
-
-
-
+            Utente utente = new Utente();
+            utente.setUsername(username.getText().toString());
+            utente.setPassword(password.getText().toString());
+            utente.setCarta(numeroCarta.getText().toString());
+            utente.setCvv(cvvCarta.getText().toString());
+            utente.setScadenza(scadenzaCarta.getText().toString());
+            utente.setIndirizzo(indirizzo.getText().toString());
+            utente.setIslogged(true);
+            salvaSuDatabase(utente);
         });
 
         back.setOnClickListener(v->finish());
@@ -232,19 +176,7 @@ public class Registrazione extends AppCompatActivity {
             result -> {
 
             });
-    public Boolean scritturaFile(String testo) throws IOException {
-        File file = new File(getFilesDir(),nomeFile);
-        FileOutputStream stream = null;
-        try{
-            stream = new FileOutputStream(file);
-            stream.write(testo.getBytes());
-            stream.close();
-            return true;
-        }catch (Exception e){
-            Log.d("FILE", "scriviFile: Scrittura fallita");
-        }
-        return false;
-    }
+
 
     public String letturaFile(){
         File file = new File(getFilesDir(),nomeFile);

@@ -1,6 +1,9 @@
 package it.itsar.amazon_redo;
 
 
+
+import static it.itsar.amazon_redo.http.model.MioDatabase.mioDatabase;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,10 +32,13 @@ import java.util.ArrayList;
 import it.itsar.amazon_redo.fragments.CartFragment;
 import it.itsar.amazon_redo.fragments.HomeFragment;
 import it.itsar.amazon_redo.fragments.SearchFragment;
+import it.itsar.amazon_redo.http.data.DBInterface;
 import it.itsar.amazon_redo.http.data.JSONProducts;
 import it.itsar.amazon_redo.http.data.PostAsync;
+import it.itsar.amazon_redo.http.model.MioDatabase;
 import it.itsar.amazon_redo.http.model.Prodotto;
 import it.itsar.amazon_redo.http.model.Profile;
+import it.itsar.amazon_redo.http.model.Utente;
 
 public class MainActivity extends AppCompatActivity {
     //link prodotti https://dummyjson.com/products
@@ -47,35 +53,20 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView navbar;
 
+    public static Utente utenteLoggato = new Utente();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getJson();
-        /*
-        try {
-            scritturaFile("");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-        String letto = letturaFile();
-        JSONObject mio = null;
-        try {
-            mio = new JSONObject(letto);
-            JSONArray arr = mio.getJSONArray("ACCOUNT");
-            for (int i = 0; i < arr.length(); i++) {
-                JSONObject utente = arr.getJSONObject(i);
-                if(utente.get("islogged").toString().equals("true")){
-                    isLogged=true;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("FILE", letto);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MioDatabase data = new MioDatabase();
+        DBInterface ls = new Esegui();
+        data.registraListener(ls);
+        data.leggiDaDatabase();
+
 
         navbar = findViewById(R.id.bottomTabBar);
         profile = findViewById(R.id.personal);
@@ -104,32 +95,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public Boolean scritturaFile(String testo) throws IOException {
-        File file = new File(getFilesDir(),nomeFile);
-        FileOutputStream stream = null;
-        try{
-            stream = new FileOutputStream(file);
-            stream.write(testo.getBytes());
-            stream.close();
-            return true;
-        }catch (Exception e){
-            Log.d("FILE", "scriviFile: Scrittura fallita");
-        }
-        return false;
-    }
+    class Esegui implements DBInterface{
 
-    public String letturaFile(){
-        File file = new File(getFilesDir(),nomeFile);
-        int length = (int) file.length();
-        byte[] bytes = new byte[length];
-
-        try(FileInputStream in = new FileInputStream(file)) {
-            int l = in.read(bytes);
-        }catch (Exception e){
-            Log.d("FILE", "letturaFile: Lettura Fallita");
+        @Override
+        public void onSuccess() {
+            Log.d("sono qui", "onCreate: "+mioDatabase.size());
+            for (Utente i : mioDatabase) {
+                if(i.getIslogged() == true){
+                    isLogged = true;
+                    utenteLoggato = i;
+                }
+            }
         }
 
-        return new String(bytes);
+        @Override
+        public void onFailed() {
+
+        }
     }
 
     private void configFragment(Class fr){
@@ -168,3 +150,4 @@ public class MainActivity extends AppCompatActivity {
 
             });
 }
+
