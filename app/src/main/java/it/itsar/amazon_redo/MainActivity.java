@@ -12,21 +12,12 @@ import androidx.fragment.app.FragmentManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import it.itsar.amazon_redo.fragments.CartFragment;
@@ -65,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         MioDatabase data = new MioDatabase();
         DBInterface ls = new Esegui();
         data.registraListener(ls);
-        data.leggiDaDatabase();
+        data.leggiUtentiDaDatabase();
 
 
         navbar = findViewById(R.id.bottomTabBar);
@@ -99,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onSuccess() {
-            Log.d("sono qui", "onCreate: "+mioDatabase.size());
             for (Utente i : mioDatabase) {
                 if(i.getIslogged() == true){
                     isLogged = true;

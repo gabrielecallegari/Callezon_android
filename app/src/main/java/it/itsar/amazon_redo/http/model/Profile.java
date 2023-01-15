@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import it.itsar.amazon_redo.Adapter.ProfiloAdapter;
 import it.itsar.amazon_redo.MainActivity;
 import it.itsar.amazon_redo.R;
+import it.itsar.amazon_redo.http.data.DBInterface;
 import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 
 public class Profile extends AppCompatActivity {
@@ -66,13 +67,17 @@ public class Profile extends AppCompatActivity {
     private String carta="";
     private String scadenza="";
     private String cvv="";
+    MioDatabase data = new MioDatabase();
+    DBInterface ls = new Profile.EseguiLetturaAcquisti();
 
-    public static ArrayList<Prodotto> acquistati = new ArrayList<>();
+
+    public static ArrayList<Acquisti> acquistati = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        data.registraListener(ls);
 
 
         nomeUtente = findViewById(R.id.bentornato);
@@ -93,6 +98,8 @@ public class Profile extends AppCompatActivity {
         acquistiLabel = findViewById(R.id.ituoiacquisti);
         acquistiLista = findViewById(R.id.recycleviewAcquisti);
 
+
+
         setVisibility();
         setUser();
 
@@ -104,7 +111,7 @@ public class Profile extends AppCompatActivity {
         acquistiLista.addOnItemTouchListener(
                 new RecyclerItemClickListener(Profile.this, acquistiLista ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Prodotto mioProdotto = prodotti.get(acquistati.get(position).getId()-1);
+                        Prodotto mioProdotto = prodotti.get(acquistati.get(position).getIdProdotto()-1);
                         Intent intent = new Intent(Profile.this, Prodotto_dettaglio.class);
                         intent.putExtra("Prodotto",mioProdotto);
                         launcher.launch(intent);
@@ -172,11 +179,9 @@ public class Profile extends AppCompatActivity {
             scadenzaCarta.setText("Scadenza: "+scadenza);
             cvvCarta.setText("Cvv: "+cvv);
         }
-        /*
-        ProfiloAdapter adapter = new ProfiloAdapter(acquistati);
-        acquistiLista.setAdapter(adapter);
-        acquistiLista.setLayoutManager(new LinearLayoutManager(Profile.this, RecyclerView.HORIZONTAL, false));
-         */
+        data.leggiAcquistiDaDatabase();
+
+
 
     }
 
@@ -202,8 +207,26 @@ public class Profile extends AppCompatActivity {
         acquistiLista.setVisibility(isLogged==true?View.VISIBLE:View.GONE);
     }
 
+
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
 
             });
+
+
+    class EseguiLetturaAcquisti implements DBInterface{
+
+        @Override
+        public void onSuccess() {
+            Log.d("ACUISTATI SIZE", "setUser: "+acquistati.size());
+            ProfiloAdapter adapter = new ProfiloAdapter(acquistati);
+            acquistiLista.setAdapter(adapter);
+            acquistiLista.setLayoutManager(new LinearLayoutManager(Profile.this, RecyclerView.HORIZONTAL, false));
+        }
+
+        @Override
+        public void onFailed() {
+
+        }
+    }
 }

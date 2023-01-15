@@ -1,5 +1,7 @@
 package it.itsar.amazon_redo.Adapter;
 
+import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +16,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import it.itsar.amazon_redo.R;
+import it.itsar.amazon_redo.http.model.Acquisti;
 import it.itsar.amazon_redo.http.model.Prodotto;
 
 public class ProfiloAdapter extends RecyclerView.Adapter<ProfiloAdapter.ProfiloViewHolder>{
-    private final ArrayList<Prodotto> acquistati;
+    private final ArrayList<Acquisti> acquistati;
 
-    public ProfiloAdapter(ArrayList<Prodotto> sconto) {
+    public ProfiloAdapter(ArrayList<Acquisti> sconto) {
         this.acquistati = sconto;
     }
 
@@ -50,9 +53,9 @@ public class ProfiloAdapter extends RecyclerView.Adapter<ProfiloAdapter.ProfiloV
 
         }
 
-        public void bindValue(Prodotto prodotto){
-            nomeProdotto.setText(prodotto.getTitle());
-            Picasso.get().load(prodotto.getThumbnail()).into(img);
+        public void bindValue(Acquisti prodotto){
+            nomeProdotto.setText(prodotti.get(prodotto.getIdProdotto()-1).getTitle());
+            Picasso.get().load(prodotti.get(prodotto.getIdProdotto()-1).getThumbnail()).into(img);
         }
 
     }

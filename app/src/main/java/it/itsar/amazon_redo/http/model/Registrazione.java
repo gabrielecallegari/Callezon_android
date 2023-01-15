@@ -1,12 +1,9 @@
 package it.itsar.amazon_redo.http.model;
 
-import static it.itsar.amazon_redo.MainActivity.isLogged;
-import static it.itsar.amazon_redo.MainActivity.nomeFile;
-import static it.itsar.amazon_redo.http.model.MioDatabase.salvaSuDatabase;
+import static it.itsar.amazon_redo.http.model.MioDatabase.salvaUtentiSuDatabase;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -14,29 +11,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import com.google.android.gms.common.api.Status;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Locale;
 
 import it.itsar.amazon_redo.MainActivity;
 import it.itsar.amazon_redo.R;
@@ -159,7 +137,7 @@ public class Registrazione extends AppCompatActivity {
             utente.setScadenza(scadenzaCarta.getText().toString());
             utente.setIndirizzo(indirizzo.getText().toString());
             utente.setIslogged(true);
-            salvaSuDatabase(utente);
+            salvaUtentiSuDatabase(utente);
         });
 
         back.setOnClickListener(v->finish());
@@ -177,18 +155,4 @@ public class Registrazione extends AppCompatActivity {
 
             });
 
-
-    public String letturaFile(){
-        File file = new File(getFilesDir(),nomeFile);
-        int length = (int) file.length();
-        byte[] bytes = new byte[length];
-
-        try(FileInputStream in = new FileInputStream(file)) {
-            int l = in.read(bytes);
-        }catch (Exception e){
-            Log.d("FILE", "letturaFile: Lettura Fallita");
-        }
-
-        return new String(bytes);
-    }
 }

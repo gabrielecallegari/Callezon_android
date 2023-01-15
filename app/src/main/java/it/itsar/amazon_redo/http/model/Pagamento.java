@@ -1,6 +1,8 @@
 package it.itsar.amazon_redo.http.model;
 
 import static it.itsar.amazon_redo.MainActivity.nomeFile;
+import static it.itsar.amazon_redo.MainActivity.utenteLoggato;
+import static it.itsar.amazon_redo.http.model.MioDatabase.salvaAcquistiSuDatabase;
 import static it.itsar.amazon_redo.http.model.Prodotto_dettaglio.carrello;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,9 +49,8 @@ public class Pagamento extends AppCompatActivity {
 
     private boolean change = false;
 
-    private String cvvGiusto = "";
+    private String cvvGiusto = utenteLoggato.getCvv();
 
-    private String nomeUtente = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,9 +64,8 @@ public class Pagamento extends AppCompatActivity {
         paga = findViewById(R.id.effettuaPagamento);
         back = findViewById(R.id.tornaCarrello);
 
-        String letto = letturaFile();
-        JSONObject mio = null;
 
+        /*
         try {
             mio = new JSONObject(letto);
             JSONArray arr = mio.getJSONArray("ACCOUNT");
@@ -79,13 +80,22 @@ public class Pagamento extends AppCompatActivity {
                     for (int j = splitted.length-4; j < splitted.length; j++) {
                         ultimeOtto = ultimeOtto+splitted[i];
                     }
-                    infocarta.setText("Inserisci il cvv della carta che termina per "+ultimeOtto);
+
 
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+         */
+
+        String splitted[] = utenteLoggato.getCarta().split("");
+        String ultimeQuattro = "";
+        for (int i = splitted.length-1; i > splitted.length-5; i--) {
+            ultimeQuattro = ultimeQuattro + splitted[i];
+        }
+        infocarta.setText("Inserisci il cvv della carta che termina per "+ultimeQuattro);
+        indirizzo.setText(utenteLoggato.getIndirizzo());
 
         back.setOnClickListener(v->{
             finish();
@@ -99,16 +109,6 @@ public class Pagamento extends AppCompatActivity {
                 cvv.setHintTextColor(Color.RED);
                 return;
             }
-            String a = letturaFile();
-            JSONObject mioNuovo = null;
-            JSONArray acquisti = null;
-            JSONArray nuovo = new JSONArray();
-            try {
-                mioNuovo = new JSONObject(a);
-                acquisti= mioNuovo.getJSONArray("ACQUISTI");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
             boolean checked = false;
             if(change==true){
@@ -118,6 +118,7 @@ public class Pagamento extends AppCompatActivity {
                     return;
                 }
 
+                /*
                 try {
                     JSONArray arr = mioNuovo.getJSONArray("ACCOUNT");
                     for (int i = 0; i < arr.length(); i++) {
@@ -135,35 +136,18 @@ public class Pagamento extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                 */
+
             }
 
             for (int i = 0; i < carrello.size(); i++) {
-                JSONObject car = new JSONObject();
-                try {
-                    car.put("id", Integer.toString(carrello.get(i).getId()));
-                    car.put("quantita",Integer.toString(carrello.get(i).getStock()));
-                    car.put("utente",nomeUtente);
-                    acquisti.put(car);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Acquisti acquisti = new Acquisti();
+                acquisti.setIdProdotto(carrello.get(i).getId());
+                acquisti.setQuantitaProdotto(carrello.get(i).getStock());
+                acquisti.setUser(utenteLoggato.getUsername());
+                salvaAcquistiSuDatabase(acquisti);
             }
 
-            if(checked == true) mioNuovo.remove("ACCOUNT");
-            mioNuovo.remove("ACQUISTI");
-            try {
-                if(checked == true) mioNuovo.put("ACCOUNT",nuovo);
-                mioNuovo.put("ACQUISTI",acquisti);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                scritturaFile(mioNuovo.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             carrello.clear();
 
@@ -189,34 +173,6 @@ public class Pagamento extends AppCompatActivity {
                 cambiaIndirizzo.setText("Annulla");
             }
         });
-    }
-
-    public Boolean scritturaFile(String testo) throws IOException {
-        File file = new File(getFilesDir(),nomeFile);
-        FileOutputStream stream = null;
-        try{
-            stream = new FileOutputStream(file);
-            stream.write(testo.getBytes());
-            stream.close();
-            return true;
-        }catch (Exception e){
-            Log.d("FILE", "scriviFile: Scrittura fallita");
-        }
-        return false;
-    }
-
-    public String letturaFile(){
-        File file = new File(getFilesDir(),nomeFile);
-        int length = (int) file.length();
-        byte[] bytes = new byte[length];
-
-        try(FileInputStream in = new FileInputStream(file)) {
-            int l = in.read(bytes);
-        }catch (Exception e){
-            Log.d("FILE", "letturaFile: Lettura Fallita");
-        }
-
-        return new String(bytes);
     }
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
