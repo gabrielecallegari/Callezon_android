@@ -34,11 +34,7 @@ import it.itsar.amazon_redo.http.model.Utente;
 public class MainActivity extends AppCompatActivity {
     //link prodotti https://dummyjson.com/products
 
-    //struttura file: ACCOUNT ACQUISTI
-
     private ImageButton profile;
-
-    public final static String nomeFile = "database.txt";
 
     public static boolean isLogged = false;
 
@@ -53,14 +49,29 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MioDatabase data = new MioDatabase();
-        DBInterface ls = new Esegui();
-        data.registraListener(ls);
-        data.leggiUtentiDaDatabase();
+        profile = findViewById(R.id.personal);
+        profile.setClickable(false);
+        new MioDatabase().leggiUtentiDaDatabase(new DBInterface() {
+            @Override
+            public void onSuccess() {
+                profile.setClickable(true);
+                for(Utente i : mioDatabase){
+                    if(i.getIslogged()==true){
+                        isLogged = true;
+                        utenteLoggato = i;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
 
 
         navbar = findViewById(R.id.bottomTabBar);
-        profile = findViewById(R.id.personal);
+
 
         profile.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, Profile.class);
@@ -86,23 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class Esegui implements DBInterface{
 
-        @Override
-        public void onSuccess() {
-            for (Utente i : mioDatabase) {
-                if(i.getIslogged() == true){
-                    isLogged = true;
-                    utenteLoggato = i;
-                }
-            }
-        }
 
-        @Override
-        public void onFailed() {
 
-        }
-    }
 
     private void configFragment(Class fr){
         FragmentManager fragmentManager = getSupportFragmentManager();

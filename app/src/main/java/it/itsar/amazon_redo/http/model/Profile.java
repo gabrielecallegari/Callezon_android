@@ -1,9 +1,10 @@
 package it.itsar.amazon_redo.http.model;
 
 import static it.itsar.amazon_redo.MainActivity.isLogged;
-import static it.itsar.amazon_redo.MainActivity.nomeFile;
 import static it.itsar.amazon_redo.MainActivity.utenteLoggato;
 import static it.itsar.amazon_redo.http.data.JSONProducts.prodotti;
+import static it.itsar.amazon_redo.http.model.MioDatabase.mioDatabase;
+import static it.itsar.amazon_redo.http.model.MioDatabase.setIsLoggedDatabase;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -41,6 +43,7 @@ import it.itsar.amazon_redo.listener.RecyclerItemClickListener;
 
 public class Profile extends AppCompatActivity {
     private ImageButton back;
+
 
     private EditText username;
     private EditText password;
@@ -67,8 +70,6 @@ public class Profile extends AppCompatActivity {
     private String carta="";
     private String scadenza="";
     private String cvv="";
-    MioDatabase data = new MioDatabase();
-    DBInterface ls = new Profile.EseguiLetturaAcquisti();
 
 
     public static ArrayList<Acquisti> acquistati = new ArrayList<>();
@@ -77,7 +78,6 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        data.registraListener(ls);
 
 
         nomeUtente = findViewById(R.id.bentornato);
@@ -124,15 +124,24 @@ public class Profile extends AppCompatActivity {
         );
 
         accedi.setOnClickListener(v->{
-            /*
-            if(!letturaFile().contains(username.getText().toString())){
+
+            boolean trovato = false;
+            Utente provaAccesso = new Utente();
+            for(Utente ut : mioDatabase){
+                if(ut.getUsername().equals(username.getText().toString())) {
+                    trovato = true;
+                    provaAccesso = ut;
+                    break;
+                }
+            }
+
+            if(trovato == false){
                 username.setText("");
                 username.setHint("Username non valido");
                 username.setHintTextColor(Color.RED);
                 return;
             }
 
-             */
             if(username.getText().equals("") || username.getText()==null){
                 username.setHint("Inserisci username");
                 username.setHintTextColor(Color.RED);
@@ -143,14 +152,28 @@ public class Profile extends AppCompatActivity {
                 password.setHintTextColor(Color.RED);
                 return;
             }
+            if(!provaAccesso.getPassword().equals(password.getText().toString())){
+                password.setText("");
+                password.setHint("Password non valida");
+                password.setHintTextColor(Color.RED);
+                return;
+            }
+
+            setIsLoggedDatabase(provaAccesso,true);
+            isLogged = true;
+            setUser();
+            setVisibility();
+            utenteLoggato = provaAccesso;
         });
 
         logout.setOnClickListener(v->{
             DialogInterface.OnClickListener listener = (dialog, which) -> {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-
+                        new MioDatabase().setIsLoggedDatabase(utenteLoggato,false);
+                        isLogged = false;
                         setVisibility();
+                        utenteLoggato = new Utente();
                         break;
                 }
             };
@@ -167,19 +190,46 @@ public class Profile extends AppCompatActivity {
 
     private void setUser(){
         acquistati.clear();
-        if (isLogged==true){
-            usernameUtente = utenteLoggato.getUsername();
-            nomeUtente.setText("Bentornato "+usernameUtente);
-            carta = utenteLoggato.getCarta();
-            scadenza = utenteLoggato.getScadenza();
-            cvv = utenteLoggato.getCvv();
-            indirizzo = utenteLoggato.getIndirizzo();
-            indirizzoUtente.setText(indirizzo);
-            numeroCarta.setText(carta);
-            scadenzaCarta.setText("Scadenza: "+scadenza);
-            cvvCarta.setText("Cvv: "+cvv);
-        }
-        data.leggiAcquistiDaDatabase();
+
+        new MioDatabase().leggiUtentiDaDatabase(new DBInterface() {
+            @Override
+            public void onSuccess() {
+                if (isLogged==true){
+                    usernameUtente = utenteLoggato.getUsername();
+                    nomeUtente.setText("Bentornato "+usernameUtente);
+                    carta = utenteLoggato.getCarta();
+                    scadenza = utenteLoggato.getScadenza();
+                    cvv = utenteLoggato.getCvv();
+                    indirizzo = utenteLoggato.getIndirizzo();
+                    indirizzoUtente.setText(indirizzo);
+                    numeroCarta.setText(carta);
+                    scadenzaCarta.setText("Scadenza: "+scadenza);
+                    cvvCarta.setText("Cvv: "+cvv);
+                }
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
+
+
+        new MioDatabase().leggiAcquistiDaDatabase(new DBInterface() {
+            @Override
+            public void onSuccess() {
+
+                Log.d("ACUISTATI SIZE", "setUser: "+acquistati.size());
+                ProfiloAdapter adapter = new ProfiloAdapter(acquistati);
+                acquistiLista.setAdapter(adapter);
+                acquistiLista.setLayoutManager(new LinearLayoutManager(Profile.this, RecyclerView.HORIZONTAL, false));
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
 
 
 
@@ -213,20 +263,4 @@ public class Profile extends AppCompatActivity {
 
             });
 
-
-    class EseguiLetturaAcquisti implements DBInterface{
-
-        @Override
-        public void onSuccess() {
-            Log.d("ACUISTATI SIZE", "setUser: "+acquistati.size());
-            ProfiloAdapter adapter = new ProfiloAdapter(acquistati);
-            acquistiLista.setAdapter(adapter);
-            acquistiLista.setLayoutManager(new LinearLayoutManager(Profile.this, RecyclerView.HORIZONTAL, false));
-        }
-
-        @Override
-        public void onFailed() {
-
-        }
-    }
 }

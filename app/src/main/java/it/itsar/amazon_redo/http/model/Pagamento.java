@@ -1,6 +1,6 @@
 package it.itsar.amazon_redo.http.model;
 
-import static it.itsar.amazon_redo.MainActivity.nomeFile;
+
 import static it.itsar.amazon_redo.MainActivity.utenteLoggato;
 import static it.itsar.amazon_redo.http.model.MioDatabase.salvaAcquistiSuDatabase;
 import static it.itsar.amazon_redo.http.model.Prodotto_dettaglio.carrello;

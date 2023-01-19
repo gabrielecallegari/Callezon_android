@@ -8,10 +8,11 @@ public class Utente {
     private String scadenza;
     private String indirizzo;
     private Boolean islogged;
+    private String id;
 
     public Utente(){}
 
-    public Utente(String username, String password, String carta, String cvv, String scadenza, String indirizzo, Boolean islogged) {
+    public Utente(String username, String password, String carta, String cvv, String scadenza, String indirizzo, Boolean islogged, String id) {
         this.username = username;
         this.password = password;
         this.carta = carta;
@@ -19,6 +20,15 @@ public class Utente {
         this.scadenza = scadenza;
         this.indirizzo = indirizzo;
         this.islogged = islogged;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {

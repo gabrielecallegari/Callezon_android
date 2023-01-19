@@ -1,5 +1,6 @@
 package it.itsar.amazon_redo.http.model;
 
+import static it.itsar.amazon_redo.http.model.MioDatabase.mioDatabase;
 import static it.itsar.amazon_redo.http.model.MioDatabase.salvaUtentiSuDatabase;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import java.util.Random;
 
 import it.itsar.amazon_redo.MainActivity;
 import it.itsar.amazon_redo.R;
@@ -137,6 +140,18 @@ public class Registrazione extends AppCompatActivity {
             utente.setScadenza(scadenzaCarta.getText().toString());
             utente.setIndirizzo(indirizzo.getText().toString());
             utente.setIslogged(true);
+            String[] generaId = "abcdefghijklmnopqrstuvwxyz1234567890".split("");
+            Random random = new Random();
+            String id = "";
+            boolean trovato = false;
+            while (true){
+                id = generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)]+ generaId[random.nextInt(generaId.length)] ;
+                for (Utente ut : mioDatabase) {
+                    if(ut.getId().equals(id)) trovato = true;
+                }
+                if(trovato==false) break;
+            }
+            utente.setId(id);
             salvaUtentiSuDatabase(utente);
         });
 

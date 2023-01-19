@@ -10,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import it.itsar.amazon_redo.http.data.DBInterface;
 
@@ -17,11 +19,7 @@ public class MioDatabase {
 
     public static ArrayList<Utente> mioDatabase = new ArrayList<>();
 
-    private DBInterface dbInterface;
 
-    public void registraListener(DBInterface inter){
-        dbInterface = inter;
-    }
 
     public static void salvaUtentiSuDatabase(Utente utente){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -34,7 +32,7 @@ public class MioDatabase {
 
     }
 
-    public void leggiUtentiDaDatabase(){
+    public void leggiUtentiDaDatabase(final DBInterface callback){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("users");
         reference.get().addOnCompleteListener(task -> {
@@ -42,18 +40,19 @@ public class MioDatabase {
                 mioDatabase.clear();
                 for(QueryDocumentSnapshot documento : task.getResult()){
                     Utente ut = documento.toObject(Utente.class);
+                    ut.setId(documento.getId());
                     mioDatabase.add(ut);
                 }
 
-                if(this.dbInterface != null) dbInterface.onSuccess();
+                callback.onSuccess();
 
             }else{
-                dbInterface.onFailed();
+                callback.onFailed();
             }
         });
     }
 
-    public void leggiAcquistiDaDatabase(){
+    public void leggiAcquistiDaDatabase(final DBInterface callback){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("acquisti");
         reference.get().addOnCompleteListener(task -> {
@@ -61,13 +60,14 @@ public class MioDatabase {
                 acquistati.clear();
                 for(QueryDocumentSnapshot documento : task.getResult()){
                     Acquisti ut = documento.toObject(Acquisti.class);
+                    ut.setId(documento.getId());
                     if(ut.getUser().equals(utenteLoggato.getUsername()) && ut!=null)acquistati.add(ut);
                 }
 
-                if(this.dbInterface != null) dbInterface.onSuccess();
+                callback.onSuccess();
 
             }else{
-                dbInterface.onFailed();
+                callback.onFailed();
             }
         });
     }
@@ -84,10 +84,22 @@ public class MioDatabase {
 
     }
 
-    public static void setIsLoggedDatabase(String username){
+    public static void setIsLoggedDatabase(Utente ut,boolean logged){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("users");
-
-
+        Map<String, Object> mappa = new HashMap<>();
+        mappa.put("username",ut.getUsername());
+        mappa.put("cvv",ut.getCvv());
+        mappa.put("carta",ut.getCarta());
+        mappa.put("islogged",logged);
+        mappa.put("indirizzo",ut.getIndirizzo());
+        mappa.put("password",ut.getPassword());
+        mappa.put("scadenza",ut.getScadenza());
+        mappa.put("id",ut.getId());
+        reference.document(ut.getId()).update(mappa).addOnSuccessListener(command -> {
+            Log.d("LOGOUT", "riuscito");
+        }).addOnFailureListener(command -> {
+            Log.d("LOGOUT", "non riuscito: ");
+        });
     }
 }
