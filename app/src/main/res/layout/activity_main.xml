@@ -17,7 +17,13 @@
         android:padding="10dp"
         >
 
-
+        <ProgressBar
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/progressbar"
+            />
 
         <TextView
             android:layout_width="wrap_content"

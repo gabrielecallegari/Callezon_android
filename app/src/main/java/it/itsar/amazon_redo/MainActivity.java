@@ -14,7 +14,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isLogged = false;
 
     private BottomNavigationView navbar;
+    private ProgressBar progressBar;
 
     public static Utente utenteLoggato = new Utente();
 
@@ -49,12 +52,14 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.progressbar);
         profile = findViewById(R.id.personal);
-        profile.setClickable(false);
+        profile.setVisibility(View.GONE);
         new MioDatabase().leggiUtentiDaDatabase(new DBInterface() {
             @Override
             public void onSuccess() {
-                profile.setClickable(true);
+                profile.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 for(Utente i : mioDatabase){
                     if(i.getIslogged()==true){
                         isLogged = true;
