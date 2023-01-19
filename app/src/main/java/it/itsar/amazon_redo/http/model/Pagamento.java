@@ -3,6 +3,7 @@ package it.itsar.amazon_redo.http.model;
 
 import static it.itsar.amazon_redo.MainActivity.utenteLoggato;
 import static it.itsar.amazon_redo.http.model.MioDatabase.salvaAcquistiSuDatabase;
+import static it.itsar.amazon_redo.http.model.MioDatabase.setIsLoggedDatabase;
 import static it.itsar.amazon_redo.http.model.Prodotto_dettaglio.carrello;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -65,30 +66,6 @@ public class Pagamento extends AppCompatActivity {
         back = findViewById(R.id.tornaCarrello);
 
 
-        /*
-        try {
-            mio = new JSONObject(letto);
-            JSONArray arr = mio.getJSONArray("ACCOUNT");
-            for (int i = 0; i < arr.length(); i++) {
-                JSONObject utente = arr.getJSONObject(i);
-                if(utente.get("islogged").toString().equals("true")){
-                    nomeUtente = utente.get("username").toString();
-                    indirizzo.setText(utente.get("indirizzo").toString());
-                    cvvGiusto = utente.get("cvv").toString();
-                    String splitted[] = utente.get("carta").toString().split("");
-                    String ultimeOtto = "";
-                    for (int j = splitted.length-4; j < splitted.length; j++) {
-                        ultimeOtto = ultimeOtto+splitted[i];
-                    }
-
-
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-         */
-
         String splitted[] = utenteLoggato.getCarta().split("");
         String ultimeQuattro = "";
         for (int i = splitted.length-1; i > splitted.length-5; i--) {
@@ -110,7 +87,6 @@ public class Pagamento extends AppCompatActivity {
                 return;
             }
 
-            boolean checked = false;
             if(change==true){
                 if (cambiaIndirizzo.getText().toString().equals("") || cambiaIndirizzo.getText()==null){
                     cambiaIndirizzo.setHint("Inserisci l'indirizzo");
@@ -118,25 +94,8 @@ public class Pagamento extends AppCompatActivity {
                     return;
                 }
 
-                /*
-                try {
-                    JSONArray arr = mioNuovo.getJSONArray("ACCOUNT");
-                    for (int i = 0; i < arr.length(); i++) {
-                        JSONObject utente = arr.getJSONObject(i);
-                        if(utente.get("islogged").toString().equals("true")){
-                            String ind = nuovoIndirizzo.getText().toString();
-                            utente.remove("insirizzo");
-                            utente.remove("indirizzo");
-                            utente.put("indirizzo",ind);
-                            checked = true;
-                        }
-                        nuovo.put(utente);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                 */
+                utenteLoggato.setIndirizzo(nuovoIndirizzo.getText().toString());
+                setIsLoggedDatabase(utenteLoggato,true);
 
             }
 
